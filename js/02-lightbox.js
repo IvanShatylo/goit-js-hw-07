@@ -1,44 +1,49 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-console.log(galleryItems);
+const markup = galleryItems.map(({ preview, original, description }) => `<div class="gallery__item">
+  <a class="gallery__item" href="${original}">
+  <img class="gallery__image" src="${preview}" alt="${description}" />
+</a>
+</div>`).join('');
 
+const galleryList = document.querySelector('.gallery');
 
-const gallaryListRef = document.querySelector('.gallery');
+galleryList.insertAdjacentHTML("afterbegin", markup);
 
-gallaryListRef.insertAdjacentHTML('afterbegin', createGallaryMarkUp(galleryItems));
+galleryList.addEventListener('click', onGalleryContainerClick);
 
-function createGallaryMarkUp(images) {
-  return images
-    .map(({ original, preview, description }) => {
-      return `
-    <a class="gallery__item" href="${original}">
-        <img class="gallery__image" src="${preview}" alt="${description}" />
-    </a>`;
-    })
-    .join('');
-}
-
-gallaryListRef.addEventListener('click', onClickGallary);
-
-function onClickGallary(e) {
-  e.preventDefault();
-
-  if (e.target.nodeName !== 'IMG') {
-    return;
+function onGalleryContainerClick(event) {
+  event.preventDefault();
+  if (event.target.nodeName !== 'IMG') {
+  return
   }
-  `
-    <div class="gallery">
-      <a href="${e.target.getAttribute('href')}">
-        <img src="${e.target.getAttribute('src')}" alt="" title="${e.target.getAttribute('let')}" />
-        </a>
-         <a href="${e.target.getAttribute('href')}">
-        <img src="${e.target.getAttribute('src')}" alt="" title="${e.target.getAttribute('let')}" />
-        </a>
-    </div>;
-   `;
-  let gallery = new SimpleLightbox('.gallery a');
-  gallery.on('show.simplelightbox', function () {
-    // Do something…
-  });
-}
+
+
+
+
+  `<div class="gallery">
+  <a href="${event.target.getAttribute(
+   "href"
+  )}"><img src="${event.target.getAttribute(
+  "src"
+  )}" alt="${event.target.getAttribute("alt")}" /></a>
+  <a href="${event.target.getAttribute(
+  "href"
+  )}"><img src="${event.target.getAttribute(
+  "src"
+  )}" alt="${event.target.getAttribute("alt")}"/></a>
+  </div>
+  `; 
+};
+
+let gallery = new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionDelay: 250,
+  showCounter: false,
+});
+
+gallery.on("show.simplelightbox");
+
+
+
