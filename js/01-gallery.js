@@ -2,28 +2,23 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
 const galleryRef = document.querySelector('.gallery');
-const gallaryMurkUp = createGallaryMarkUp(galleryItems);
 
-galleryRef.insertAdjacentHTML('afterbegin', gallaryMurkUp);
-
-function createGallaryMarkUp(images) {
-  return images
-    .map(({ original, preview }) => {
-      return `
-    <div class="gallery__item">
-        <a class="gallery__link" href="${original}">
-            <img
+const markup = galleryItems.map(({ preview, original, description }) => 
+`<li class="gallery__item">
+  <a class="gallery__link" href="${original}">
+    <img
       class="gallery__image"
+      loading="lazy"
       src="${preview}"
       data-source="${original}"
-      alt="Image description"
-            />
-        </a>
-    </div>
-      `;
-    })
-    .join('');
-}
+      alt="${description}"
+    />
+  </a>
+</li>`).join('');
+
+galleryRef.insertAdjacentHTML('afterbegin', markup);
+
+
 
 galleryRef.addEventListener('click', onGallary);
 
